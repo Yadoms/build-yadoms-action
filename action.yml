@@ -1,0 +1,59 @@
+# buildyadoms.yml
+name: 'Yadoms build script'
+description: 'Use to generate yadoms binaries, using docker images'
+inputs:
+  privileged: 
+    description: 'run container in privileged mode : setup to --privileged'
+    required: false
+    default: ''
+    
+  repository: 
+    description: 'Base repository url'
+    required: false
+    default: 'https://github.com/Yadoms/yadoms.git'
+    
+  branch: 
+    description: 'Branch to build'
+    required: false
+    default: 'master'
+    
+  param1: 
+    description: 'Generic parameter 1'
+    required: false
+    default: ''
+    
+  param2: 
+    description: 'Generic parameter 1'
+    required: false
+    default: ''
+
+  param3: 
+    description: 'Generic parameter 3'
+    required: false
+    default: ''
+
+  param4: 
+    description: 'Generic parameter 4'
+    required: false
+    default: ''
+        
+  entrypoint: 
+    description: 'entrypoint override'
+    required: false
+    default: '/entrypoint.sh'
+        
+  buildImage: 
+    description: 'The image to use for building yadoms'
+    required: true
+
+  buildImageTag: 
+    description: 'The image tag to use for building yadoms'
+    required: false
+    default: ':latest'
+
+runs:
+  using: 'docker'
+  image: '${{ inputs.buildImage }}'
+  entrypoint:  ${{ inputs.entrypoint }}
+  args: '${{inputs.privileged}} -e MAKE_PACKAGE=true -e YADOMS_REPO=${{ inputs.repository }} -e YADOMS_BUILD_BRANCH=${{ inputs.branch }} -e PARAM1=${{ inputs.param1 }} -e PARAM2=${{ inputs.param2 }} -e PARAM3=${{ inputs.param3 }} -e PARAM4=${{ inputs.param4 }}'
+  
