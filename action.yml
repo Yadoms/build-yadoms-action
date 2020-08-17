@@ -41,10 +41,20 @@ inputs:
     description: 'The image tag to use for building yadoms'
     required: false
     default: ':latest'
-
+  username:
+    description: 'The docker hub/github package username'
+    required: false
+    default: ''
+  password:
+    description: 'The docker hub/github package password/token'
+    required: false
+    default: ''
 runs:
   using: "composite"
   steps: 
+    - run: 'docker login docker.pkg.github.com --username ${{ inputs.username }} --password "${{ inputs.password }}"'
+      name : 'Login to docker'
+      shell: bash
     - run: 'docker run ${{inputs.privileged}} -e MAKE_PACKAGE=true -e YADOMS_REPO=${{ inputs.repository }} -e YADOMS_BUILD_BRANCH=${{ inputs.branch }} -e PARAM1=${{ inputs.param1 }} -e PARAM2=${{ inputs.param2 }} -e PARAM3=${{ inputs.param3 }} -e PARAM4=${{ inputs.param4 }} ${{ inputs.buildImage }} ${{ inputs.entrypoint }}'
       name : 'Build of Yadoms'
       shell: bash
