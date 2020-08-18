@@ -6,14 +6,6 @@ inputs:
     description: 'run container in privileged mode : setup to --privileged'
     required: false
     default: ''
-  repository: 
-    description: 'Base repository url'
-    required: false
-    default: 'https://github.com/Yadoms/yadoms.git'
-  branch: 
-    description: 'Branch to build'
-    required: false
-    default: 'master'
   param1: 
     description: 'Generic parameter 1'
     required: false
@@ -37,10 +29,6 @@ inputs:
   buildImage: 
     description: 'The image to use for building yadoms'
     required: true
-  buildImageTag: 
-    description: 'The image tag to use for building yadoms'
-    required: false
-    default: ':latest'
   username:
     description: 'The docker hub/github package username'
     required: false
@@ -49,6 +37,10 @@ inputs:
     description: 'The docker hub/github package password/token'
     required: false
     default: ''
+outputs:
+  yadomsVersion: 
+    description: 'Yadoms version'
+    value: ${{ steps.get-yadoms-version.outputs.yadomsVersion }}    
 runs:
   using: "composite"
   steps: 
@@ -57,6 +49,10 @@ runs:
       shell: bash
     - run: 'docker run ${{inputs.privileged}}  -v $(pwd):/work -e MAKE_PACKAGE=true -e YADOMS_REPO=${{ inputs.repository }} -e YADOMS_BUILD_BRANCH=${{ inputs.branch }} -e PARAM1=${{ inputs.param1 }} -e PARAM2=${{ inputs.param2 }} -e PARAM3=${{ inputs.param3 }} -e PARAM4=${{ inputs.param4 }} ${{ inputs.buildImage }} ${{ inputs.entrypoint }}'
       name : 'Build of Yadoms'
+      shell: bash
+    - id: get-yadoms-version
+      run: echo "::set-output name=yadomsVersion::$(head -1 changelog.md | awk '{print $2}')"
+      name : 'Find yadoms version'
       shell: bash
 
 branding:

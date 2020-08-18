@@ -11,51 +11,26 @@ This action allow to generate a yadoms build using Github Actions.
 
 ### `privileged`
 
-To run the container in privileged mode, set this input to "--privileged"
+* optional * To run the container in privileged mode, set this input to "--privileged"
 
-### `repository`
 
-The yadoms source repository to build
-Z
+### `entrypoint`
 
-  repository: 
-    description: 'Base repository url'
-    required: false
-    default: 'https://github.com/Yadoms/yadoms.git'
-    
-  branch: 
-    description: 'Branch to build'
-    required: false
-    default: 'master'
-    
-  param1: 
-    description: 'Generic parameter 1'
-    required: false
-    default: ''
-    
-  param2: 
-    description: 'Generic parameter 1'
-    required: false
-    default: ''
+* optional * The entrypoint override (default : /entrypoint.sh)
 
-  param3: 
-    description: 'Generic parameter 3'
-    required: false
-    default: ''
+### `param1`, `param2`, `param3`, `param4`
 
-  param4: 
-    description: 'Generic parameter 4'
-    required: false
-    default: ''
-        
-  entrypoint: 
-    description: 'entrypoint override'
-    required: false
-    default: '/entrypoint.sh'
+* optional * Free parameters passed to docker container
+
+## Outputs
+
+### `yadomsVersion`
+
+The current building yadoms full version, example : '2.5.0-beta.1'
 
 
 ## Example usage
 
-uses: actions/hello-world-docker-action@v1
-with:
-  who-to-greet: 'Mona the Octocat'
+- name: Yadoms build script
+  uses: Yadoms/build-yadoms-action@v3.beta3
+  
