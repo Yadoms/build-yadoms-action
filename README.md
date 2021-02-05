@@ -4,15 +4,26 @@ This action allow to generate a yadoms build using Github Actions.
 
 ## Inputs
 
-### `who-to-greet`
+### `buildImage`
 
-**Required** The name of the person to greet. Default `"World"`.
+* required * The imgae to use for building Yadoms. 
 
+### `registry`
+
+* optional * The registry where to pull image (default : ''). 
+This is used for GitHubContainerRegistry (ghcr.io)
+
+### `username`
+
+* optional * The registry username (default : '')
+
+### `password`
+
+* optional * The registry password (default : '')
 
 ### `privileged`
 
 * optional * To run the container in privileged mode, set this input to "--privileged"
-
 
 ### `entrypoint`
 
@@ -32,5 +43,5 @@ The current building yadoms full version, example : '2.5.0-beta.1'
 ## Example usage
 
 - name: Yadoms build script
-  uses: Yadoms/build-yadoms-action@v3.beta3
+  uses: Yadoms/build-yadoms-action@v4.0.0
   
