@@ -55,8 +55,8 @@ runs:
       name : 'Build of Yadoms'
       shell: bash
     - id: get-yadoms-version
-      run: echo "::set-output name=yadomsVersion::$(head -1 sources/server/changelog.md | awk '{print $2}')"
-      name : 'Find yadoms version'
+      run: echo "yadomsVersion=$(head -1 sources/server/changelog.md | awk '{print $2}')" >> $GITHUB_OUTPUT
+      name : 'Find Yadoms version'
       shell: bash
 
 branding:
